@@ -1,12 +1,18 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { CountriesModule } from './countries/countries.module';
-import { TravelsPlanModule } from './travels-plan/travels-plan.module';
-import { TravelPlansModule } from './travel-plans/travel-plans.module';
+import { CountryModule } from './country/country.module';
+import { TravelPlanModule } from './travel-plan/travel-plan.module';
+import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
-  imports: [CountriesModule, TravelsPlanModule, TravelPlansModule],
+  imports: [
+    MongooseModule.forRoot(
+      'mongodb://root:secret@localhost:27017/nest_persistencia?authSource=admin'
+    ),
+    CountryModule,
+    TravelPlanModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
