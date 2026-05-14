@@ -3,11 +3,14 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { Country, CountrySchema } from './country.schema';
 import { CountryService } from './country.service';
 import { ApiExternalProvider } from './apiExternal.provider';
+import { HttpModule } from '@nestjs/axios';
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: Country.name, schema: CountrySchema }]),
+    HttpModule,
   ],
   providers: [CountryService, ApiExternalProvider],
+  exports: [CountryService],
 })
 export class CountryModule {}

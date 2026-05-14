@@ -1,6 +1,8 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
+import { plainToInstance } from 'class-transformer';
 import { firstValueFrom } from 'rxjs';
+import { CreateCountryDto } from './dto/create-country.dto';
 
 interface CountryResponse {
   cca3: string;
@@ -28,13 +30,13 @@ export class ApiExternalProvider {
 
     const country = response.data[0];
 
-    return {
-      codigo: country.cca3,
+    return plainToInstance(CreateCountryDto, {
+      _id: country.cca3,
       nombre: country.name.common,
       capital: country.capital[0],
       region: country.region,
       poblacion: country.population,
       urlBandera: country.flags.png,
-    };
+    });
   }
 }
