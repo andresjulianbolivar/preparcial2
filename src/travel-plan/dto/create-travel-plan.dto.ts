@@ -3,6 +3,7 @@ import { Transform, Type, Expose } from 'class-transformer';
 
 export class CreateTravelPlanDto {
   @IsString()
+  @Length(3, 100)
   @Transform(({ value }) => (typeof value === 'string' ? value.trim() : value))
   titulo: string;
 
