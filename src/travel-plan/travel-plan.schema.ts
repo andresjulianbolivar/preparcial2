@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument, Types } from 'mongoose';
 import { Country } from 'src/country/country.schema';
+
 export type TravelPlanDocument = HydratedDocument<TravelPlan>;
 @Schema({ timestamps: true })
 export class TravelPlan {
