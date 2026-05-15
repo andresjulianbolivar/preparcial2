@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { TravelPlan, TravelPlanDocument } from './travel-plan.schema';
 import { Model } from 'mongoose';
 import { CountryService } from 'src/country/country.service';
+import { UserService } from 'src/user/user.service';
 import { CreateTravelPlanDto } from './dto/create-travel-plan.dto';
 import { CreateGastoDto } from './dto/gasto.dto';
 
@@ -12,12 +13,17 @@ export class TravelPlanService {
     @InjectModel(TravelPlan.name)
     private readonly travelPlanModel: Model<TravelPlanDocument>,
     private readonly countryService: CountryService,
+    private readonly userService: UserService,
   ) {}
 
   async create(dto: CreateTravelPlanDto) {
     const country = await this.countryService.findByCode(dto.pais);
     if (!country) {
       throw new NotFoundException(`Country with code ${dto.pais} not found`);
+    }
+    const user = await this.userService.findById(dto.usuario);
+    if (!user) {
+      throw new NotFoundException(`User with id ${dto.usuario} not found`);
     }
     const created = await this.travelPlanModel.create(dto);
     return created;

@@ -23,4 +23,8 @@ export class CreateTravelPlanDto {
     typeof value === 'string' ? value.trim().toLowerCase() : value,
   )
   pais: string;
+
+  @IsString()
+  @IsNotEmpty()
+  usuario: string;
 }
