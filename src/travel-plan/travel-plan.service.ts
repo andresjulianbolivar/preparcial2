@@ -4,6 +4,7 @@ import { TravelPlan, TravelPlanDocument } from './travel-plan.schema';
 import { Model } from 'mongoose';
 import { CountryService } from 'src/country/country.service';
 import { CreateTravelPlanDto } from './dto/create-travel-plan.dto';
+import { CreateGastoDto } from './dto/gasto.dto';
 
 @Injectable()
 export class TravelPlanService {
@@ -20,6 +21,20 @@ export class TravelPlanService {
     }
     const created = await this.travelPlanModel.create(dto);
     return created;
+  }
+
+  async addGasto(id: string, dto: CreateGastoDto) {
+    const travelPlan = await this.travelPlanModel.findById(id).exec();
+    if (!travelPlan) {
+      throw new NotFoundException(`Travel plan with id ${id} not found`);
+    }
+    const updated = await this.travelPlanModel
+      .findByIdAndUpdate(id, { $push: { gastos: dto } }, { new: true })
+      .exec();
+    if (!updated) {
+      throw new NotFoundException(`Travel plan with id ${id} not found`);
+    }
+    return updated;
   }
 
   async findAll() {

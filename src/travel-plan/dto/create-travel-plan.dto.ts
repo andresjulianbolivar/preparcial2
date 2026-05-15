@@ -1,9 +1,9 @@
-import { IsString, Length, IsDate } from 'class-validator';
+import { IsString, Length, IsDate, IsNotEmpty } from 'class-validator';
 import { Transform, Type, Expose } from 'class-transformer';
 
 export class CreateTravelPlanDto {
   @IsString()
-  @Length(3, 100)
+  @IsNotEmpty()
   @Transform(({ value }) => (typeof value === 'string' ? value.trim() : value))
   titulo: string;
 
